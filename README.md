@@ -1,4 +1,4 @@
-# Exporting SQL Results to Markdown
+# SQLite Results to Markdown
 This repo contains a Python app to export the results of a SQLite query to a markdown file.
 
 This software may be used/updated under the terms of the **MIT license**.  
@@ -12,7 +12,7 @@ The app is expecting the following command line args:
 |Arg|Description|
 |---|---|
 |1<sup>st</sup>|Path to SQLite database file|
-|2<sup>nd</sup>|Path to SQL query file|
+|2<sup>nd</sup>|Path to SQL file containing source query|
 |3<sup>rd</sup> (Optional)|Directory where markdown file will be created|
 
 Note: The markdown file created will have the same filename as the input sql file, but with the extension changed to **md**.
