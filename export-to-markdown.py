@@ -199,7 +199,7 @@ def create_markdown(title, body, table):
 
     # Row data
     for row in rows:
-        lines.append('|{}|'.format('|'.join([str(i) for i in row])))
+        lines.append('|{}|'.format('|'.join([str(i) if i is not None else '' for i in row])))
 
     return lines
 
