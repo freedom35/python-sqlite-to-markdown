@@ -176,25 +176,44 @@ def create_markdown(title, body, table):
     if len(rows) == 0:
         return lines
 
-    # Build table markdown
+    # Build table markdown:
+    # Start with table headings
     headings = '|'
-    alignment = '|'
 
-    # Table headings
     for field in fields:
         # Add field name, replace underscores
         headings += field.replace('_', ' ') + '|'
 
     lines.append(headings)
 
-    # Align table based on data type
-    # (center align if numeric)
-    for val in rows[0]:
-        if isinstance(val, int) or isinstance(val, float):
-            alignment += ':-:|'
-        else:
-            alignment += '---|'
+    # Create table alignment
+    alignment = '|'
 
+    # Loop fields by index
+    for i in range(len(fields)):
+        fieldAlignment = None
+
+        # Iterate each row until a non-null value is found
+        for row in rows:
+            # Get value for current field
+            val = row[i]
+
+            if val is None:
+                continue
+            
+            # Align fields based on data type
+            # Center align if numeric, left align if not
+            if isinstance(val, int) or isinstance(val, float):
+                fieldAlignment = ':-:|'
+            else:
+                fieldAlignment = '---|'
+
+            break
+        
+        # Default alignment left if data type unknown
+        alignment += fieldAlignment if fieldAlignment is not None else '---|'
+
+    # Add table alignment row
     lines.append(alignment)
 
     # Row data
