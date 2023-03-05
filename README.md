@@ -1,5 +1,5 @@
 # SQLite Results to Markdown
-This repo contains a Python app to export the results of a SQLite query to a markdown file.
+This repo contains a Python app to export the results of a SQLite query to a [markdown](https://www.markdownguide.org) file.
 
 This software may be used/updated under the terms of the **MIT license**.  
 
