@@ -19,14 +19,14 @@ Note: The markdown file created will have the same filename as the input sql fil
 
 Example:
 ```sh
-$ python3 export-to-markdown.py sample.db query.sql
+$ python3 exportmd.py sample.db query.sql
 ```
 
 In this case, a *query.md* file with the results will be created in the current directory - the same directory as the *query.sql* file.
 
 Example with optional export directory:
 ```sh
-$ python3 export-to-markdown.py sample.db query.sql export-data
+$ python3 exportmd.py sample.db query.sql export-data
 ```
 
 In this case, a *query.md* file with the results will be created in the *export-data* directory.
