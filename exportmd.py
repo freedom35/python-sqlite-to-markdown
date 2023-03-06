@@ -8,6 +8,7 @@ import sqlite3
 import sys
 import os
 
+
 #######################################
 # Main method
 #######################################
@@ -49,7 +50,9 @@ def main():
         
         # Check input file is not markdown or will be overwritten
         if sql_file_dir == export_dir and sql_file_ext == MARKDOWN_EXT:
-            print('SQL file ({}) cannot have same ext as markdown file ({}) - SQL file would be overwritten!'.format(sql_file_with_ext, MARKDOWN_EXT))
+            print('SQL file ({}) cannot have same ext as markdown file ({}) '
+                  '- SQL file would be overwritten!'
+                  .format(sql_file_with_ext, MARKDOWN_EXT))
             return
         
         # Get contents of SQL file
@@ -211,14 +214,16 @@ def create_markdown(title, body, table):
             break
         
         # Default alignment left if data type unknown
-        alignment += field_alignment if field_alignment is not None else '---|'
+        alignment += (field_alignment if field_alignment is not None 
+                      else '---|')
 
     # Add table alignment row
     lines.append(alignment)
 
     # Row data
     for row in rows:
-        lines.append('|{}|'.format('|'.join([str(i) if i is not None else '' for i in row])))
+        lines.append('|{}|'.format('|'.join(
+            [str(i) if i is not None else '' for i in row])))
 
     return lines
 
