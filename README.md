@@ -1,5 +1,5 @@
 # SQLite Results to Markdown
-This repo contains a Python app to export the results of a SQLite query to a markdown file.
+This repo contains a Python app to export the results of a SQLite query to a [markdown](https://www.markdownguide.org) file.
 
 This software may be used/updated under the terms of the **MIT license**.  
 
@@ -19,14 +19,14 @@ Note: The markdown file created will have the same filename as the input sql fil
 
 Example:
 ```sh
-$ python3 export-to-markdown.py sample.db query.sql
+$ python3 exportmd.py sample.db query.sql
 ```
 
 In this case, a *query.md* file with the results will be created in the current directory - the same directory as the *query.sql* file.
 
 Example with optional export directory:
 ```sh
-$ python3 export-to-markdown.py sample.db query.sql export-data
+$ python3 exportmd.py sample.db query.sql export-data
 ```
 
 In this case, a *query.md* file with the results will be created in the *export-data* directory.
