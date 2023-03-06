@@ -2,7 +2,7 @@
 # App to export SQLite query results to markdown.
 #
 # Alan Barr (GitHub: freedom35)
-# Jan 2023
+# March 2023
 #################################################
 import sqlite3
 import sys
@@ -19,44 +19,44 @@ def main():
             return
 
         # Get paths - first arg is file name
-        dbFile = sys.argv[1]
-        sqlFile = sys.argv[2]
+        db_file = sys.argv[1]
+        sql_file = sys.argv[2]
 
         # Check database exists otherwise SQLite lib will create an empty one
-        if not os.path.isfile(dbFile):
-            print('Database not found: {}'.format(dbFile))
+        if not os.path.isfile(db_file):
+            print('Database not found: {}'.format(db_file))
             return
 
-        if not os.path.isfile(sqlFile):
-            print('SQL file not found: {}'.format(sqlFile))
+        if not os.path.isfile(sql_file):
+            print('SQL file not found: {}'.format(sql_file))
             return
 
         # Separate directory/filename
-        tmp = os.path.split(sqlFile)
-        sqlFileDir = tmp[0]
-        sqlFileWithExt = tmp[1]
+        tmp = os.path.split(sql_file)
+        sql_file_dir = tmp[0]
+        sql_file_with_ext = tmp[1]
 
         # Separate filename/ext
-        tmp = os.path.splitext(sqlFileWithExt)
-        sqlFileWithoutExt = tmp[0]
-        sqlFileExt = tmp[1]
+        tmp = os.path.splitext(sql_file_with_ext)
+        sql_file_without_ext = tmp[0]
+        sql_file_ext = tmp[1]
 
         # Export to same directory as SQL file if optional dir not specified
-        exportDir = sys.argv[3] if len(sys.argv) > 3 else sqlFileDir
+        export_dir = sys.argv[3] if len(sys.argv) > 3 else sql_file_dir
 
         # File ext for output file
         MARKDOWN_EXT = '.md'
         
         # Check input file is not markdown or will be overwritten
-        if sqlFileDir == exportDir and sqlFileExt == MARKDOWN_EXT:
-            print('SQL file ({}) cannot have same ext as markdown file ({}) - SQL file would be overwritten!'.format(sqlFileWithExt, MARKDOWN_EXT))
+        if sql_file_dir == export_dir and sql_file_ext == MARKDOWN_EXT:
+            print('SQL file ({}) cannot have same ext as markdown file ({}) - SQL file would be overwritten!'.format(sql_file_with_ext, MARKDOWN_EXT))
             return
         
         # Get contents of SQL file
-        sql = read_query(sqlFile)
+        sql = read_query(sql_file)
 
         # Query DB
-        conn = sqlite3.connect(dbFile)
+        conn = sqlite3.connect(db_file)
 
         results = get_results(conn, sql)
 
@@ -64,22 +64,22 @@ def main():
         comments = get_header_comments(sql)
 
         # Format results as markdown
-        markdown = create_markdown(sqlFileWithoutExt, comments, results)
+        markdown = create_markdown(sql_file_without_ext, comments, results)
 
         # Check to create dir for output file
-        if not os.path.exists(exportDir):
-            os.makedirs(exportDir)
+        if not os.path.exists(export_dir):
+            os.makedirs(export_dir)
 
         # Get output path
-        exportFile = sqlFileWithoutExt + MARKDOWN_EXT
-        exportPath = os.path.join(exportDir, exportFile)
+        export_file = sql_file_without_ext + MARKDOWN_EXT
+        export_path = os.path.join(export_dir, export_file)
 
-        export_to_file(exportPath, markdown)
+        export_to_file(export_path, markdown)
 
         # Tidy up
         conn.close()
 
-        print('Export complete: {}'.format(exportFile))
+        print('Export complete: {}'.format(export_file))
 
     except Exception as e:
         print('Error: {}'.format(str(e)))
@@ -89,12 +89,12 @@ def main():
 # Help
 #######################################
 def display_help():
-    pythonFile = os.path.basename(__file__)
+    python_file = os.path.basename(__file__)
     print('Expecting <database path> <sql path> [optional: <export dir>]')
     print('Example:')
-    print(' python3 {} sample.db query.sql'.format(pythonFile))
+    print('  python3 {} sample.db query.sql'.format(python_file))
     print('or')
-    print(' python3 {} sample.db query.sql export-dir'.format(pythonFile))
+    print('  python3 {} sample.db query.sql export-dir'.format(python_file))
 
 
 #######################################
@@ -141,10 +141,10 @@ def get_results(conn, sql):
     names = list(map(lambda x: x[0], cur.description))
 
     # Get results into a table (list of lists)
-    selectedResults = cur.fetchall()
+    selected_results = cur.fetchall()
 
     # Return tuple
-    return (names, selectedResults)
+    return (names, selected_results)
 
 
 #######################################
@@ -191,7 +191,7 @@ def create_markdown(title, body, table):
 
     # Loop fields by index
     for i in range(len(fields)):
-        fieldAlignment = None
+        field_alignment = None
 
         # Iterate each row until a non-null value is found
         for row in rows:
@@ -204,14 +204,14 @@ def create_markdown(title, body, table):
             # Align fields based on data type
             # Center align if numeric, left align if not
             if isinstance(val, int) or isinstance(val, float):
-                fieldAlignment = ':-:|'
+                field_alignment = ':-:|'
             else:
-                fieldAlignment = '---|'
+                field_alignment = '---|'
 
             break
         
         # Default alignment left if data type unknown
-        alignment += fieldAlignment if fieldAlignment is not None else '---|'
+        alignment += field_alignment if field_alignment is not None else '---|'
 
     # Add table alignment row
     lines.append(alignment)
@@ -226,15 +226,15 @@ def create_markdown(title, body, table):
 #######################################
 # Export to file
 #######################################
-def export_to_file(exportPath, markdown):
+def export_to_file(path, markdown):
     # Create file for writing
-    with open(exportPath, 'w') as f:
+    with open(path, 'w') as f:
         # Insert newline char between each item
         # (Otherwise list will be concatenated into one line)
-        separateLines = map(lambda x: f"{x}\n", markdown)
+        separate_lines = map(lambda x: f"{x}\n", markdown)
 
         # Write all lines to file
-        f.writelines(separateLines)
+        f.writelines(separate_lines)
 
 
 #######################################
