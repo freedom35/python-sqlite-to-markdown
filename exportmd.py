@@ -254,6 +254,7 @@ def format_title(title):
     title = title.replace('_', ' ')
     return title
 
+
 #######################################
 # Local entrypoint
 #######################################
