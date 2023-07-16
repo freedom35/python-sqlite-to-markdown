@@ -2,7 +2,7 @@
 # App to export SQLite query results to markdown.
 #
 # Alan Barr (GitHub: freedom35)
-# March 2023
+# July 2023
 #################################################
 import sqlite3
 import sys
@@ -66,8 +66,11 @@ def main():
         # Check for SQL comments in file
         comments = get_header_comments(sql)
 
+        # Replace chars for title
+        title = format_title(sql_file_without_ext)
+
         # Format results as markdown
-        markdown = create_markdown(sql_file_without_ext, comments, results)
+        markdown = create_markdown(title, comments, results)
 
         # Check to create dir for output file
         if not os.path.exists(export_dir):
@@ -241,6 +244,15 @@ def export_to_file(path, markdown):
         # Write all lines to file
         f.writelines(separate_lines)
 
+
+#######################################
+# Format title for markdown
+#######################################
+def format_title(title):
+    # Replace file chars with spaces
+    title = title.replace('-', ' ')
+    title = title.replace('_', ' ')
+    return title
 
 #######################################
 # Local entrypoint
