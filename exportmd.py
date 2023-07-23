@@ -188,7 +188,7 @@ def create_markdown(title, body, table):
 
     for field in fields:
         # Add field name, replace underscores
-        headings += field.replace('_', ' ') + '|'
+        headings += field.replace('_', ' ').strip() + '|'
 
     lines.append(headings)
 
