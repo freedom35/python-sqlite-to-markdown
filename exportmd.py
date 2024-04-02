@@ -2,7 +2,7 @@
 # App to export SQLite query results to markdown.
 #
 # Alan Barr (GitHub: freedom35)
-# July 2023
+# April 2024
 #################################################
 import sqlite3
 import sys
@@ -165,8 +165,9 @@ def create_markdown(title, body, table):
 
     # Optional body
     if len(body) > 0:
+        # Add double-space for newline in markdown
         for s in body:
-            lines.append(s)
+            lines.append(s + '  ')
 
         # Add extra line if added body
         lines.append('')
