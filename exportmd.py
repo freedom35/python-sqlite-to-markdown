@@ -215,15 +215,15 @@ def create_markdown(title, body, table):
             # Align fields based on data type
             # Center align if numeric, left align if not
             if isinstance(val, int) or isinstance(val, float):
-                field_alignment = ':-:|'
+                field_alignment = ':---:|'
             else:
-                field_alignment = '---|'
+                field_alignment = ':----|'
 
             break
         
         # Default alignment left if data type unknown
         alignment += (field_alignment if field_alignment is not None 
-                      else '---|')
+                      else ':----|')
 
     # Add table alignment row
     lines.append(alignment)
