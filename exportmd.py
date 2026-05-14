@@ -2,7 +2,7 @@
 # App to export SQLite query results to markdown.
 #
 # Alan Barr (GitHub: freedom35)
-# April 2024
+# May 2026
 #################################################
 import sqlite3
 import sys
