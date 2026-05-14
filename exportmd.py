@@ -125,8 +125,8 @@ def get_header_comments(sql):
     # Check start of file for comments
     for line in sql.splitlines():
         if line.startswith('--'):
-            # Remove comment marker and any spaces
-            comments.append(line.lstrip('- ').rstrip(' \r\n'))
+            # Remove comment marker and any newline chars
+            comments.append(line.lstrip('- ').rstrip('\r\n'))
         else:
             break
 
@@ -165,9 +165,13 @@ def create_markdown(title, body, table):
 
     # Optional body
     if len(body) > 0:
-        # Add double-space for newline in markdown
+        # Add double-space to create newline in markdown
         for s in body:
-            lines.append(s + '  ')
+            # Chech not already double-spaced and add if not
+            if not s.endswith('  '):
+                s = s.rstrip() + '  '
+
+            lines.append(s)
 
         # Add extra line if added body
         lines.append('')
