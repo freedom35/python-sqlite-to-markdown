@@ -46,7 +46,7 @@ An example of the output format is shown below:
 Optional comment(s) from start of query file.
 
 |ID|Value|
-|:-:|---|
+|:---:|:----|
 |1|Value A|
 |2|Value B|
 
