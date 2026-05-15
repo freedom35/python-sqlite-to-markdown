@@ -7,6 +7,7 @@
 import sqlite3
 import sys
 import os
+import re
 
 
 #######################################
@@ -213,9 +214,11 @@ def create_markdown(title, body, table):
                 continue
             
             # Align fields based on data type
-            # Center align if numeric, left align if not
+            # Center align if numeric, right align if currency, left align default
             if isinstance(val, int) or isinstance(val, float):
                 field_alignment = ':---:|'
+            elif is_currency(val):
+                field_alignment = '----:|'
             else:
                 field_alignment = ':----|'
 
@@ -234,6 +237,21 @@ def create_markdown(title, body, table):
             [str(i) if i is not None else '' for i in row])))
 
     return lines
+
+
+#######################################
+# Check if value is common currency
+#######################################
+def is_currency(val):
+    # For simplicity and broad coverage, use core global currency symbols:
+    sym = r'[$\u00A2-\u00A5\u0E3F\u20A0-\u20CF\uFFE0-\uFFE6]'
+    
+    # ^[...]: Starts with symbol
+    # [...]$: Ends with symbol
+    # ^\d+(?:[.,]\d{2})$: Exactly 2 decimal places (dot/comma), no symbol
+    pattern = rf'^{sym}|{sym}$|^\d+(?:[.,]\d{{2}})$'
+    
+    return bool(re.search(pattern, str(val).strip()))
 
 
 #######################################
